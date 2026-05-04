@@ -22,8 +22,8 @@ page 50107 "Agent Login API"
             {
                 field(id; Rec.SystemId) { }
                 field(email; Rec."E-Mail") { }
-                field(password; Rec.Password) { }
                 field(name; Rec.Name) { }
+                field(code; Rec.Code) { }
             }
         }
     }
@@ -37,7 +37,7 @@ page 50107 "Agent Login API"
         Salesperson.SetRange("Password", UserPassword);
 
         if Salesperson.FindFirst() then
-            exit('Success:' + Salesperson.Name)
+            exit('Success:' + Salesperson.Code + '|' + Salesperson.Name)
         else
             Error('Invalid credentials');
     end;

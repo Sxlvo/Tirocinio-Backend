@@ -11,8 +11,6 @@ page 50103 "API Sales Order Line"
     SourceTable = "Sales Line";
     DelayedInsert = true;
     ODataKeyFields = SystemId;
-
-    // Filtro solo per gli Ordini
     SourceTableView = where("Document Type" = const(Order));
 
     layout
@@ -30,10 +28,12 @@ page 50103 "API Sales Order Line"
                 {
                     Caption = 'Tipo Documento';
                 }
+
                 field(numeroOrdine; Rec."Document No.")
                 {
                     Caption = 'Numero Ordine';
                 }
+
                 field(numeroRiga; Rec."Line No.")
                 {
                     Caption = 'Numero Riga';
@@ -43,22 +43,53 @@ page 50103 "API Sales Order Line"
                 {
                     Caption = 'Tipo Riga';
                 }
+
                 field(codiceArticolo; Rec."No.")
                 {
                     Caption = 'Codice Articolo';
+
+                    trigger OnValidate()
+                    begin
+                        Rec.Type := Rec.Type::Item;
+                        Rec.Validate("No.", Rec."No.");
+                    end;
                 }
+
+                field(unitaMisura; Rec."Unit of Measure Code")
+                {
+                    Caption = 'Unità Misura';
+
+                    trigger OnValidate()
+                    begin
+                        Rec.Validate("Unit of Measure Code", Rec."Unit of Measure Code");
+                    end;
+                }
+
                 field(quantita; Rec.Quantity)
                 {
                     Caption = 'Quantità';
+
+                    trigger OnValidate()
+                    begin
+                        Rec.Validate(Quantity, Rec.Quantity);
+                    end;
                 }
+
                 field(prezzoUnitario; Rec."Unit Price")
                 {
                     Caption = 'Prezzo Unitario';
+
+                    trigger OnValidate()
+                    begin
+                        Rec.Validate("Unit Price", Rec."Unit Price");
+                    end;
                 }
+
                 field(totaleRiga; Rec.Amount)
                 {
                     Caption = 'Totale Riga';
                 }
+
                 field(totaleRigaConIva; Rec."Amount Including VAT")
                 {
                     Caption = 'Totale Riga con IVA';
@@ -66,4 +97,51 @@ page 50103 "API Sales Order Line"
             }
         }
     }
+
+    trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        Rec."Document Type" := Rec."Document Type"::Order;
+        Rec.Type := Rec.Type::Item;
+    end;
+
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    var
+        SalesLine: Record "Sales Line";
+        ItemNo: Code[20];
+        Qty: Decimal;
+        UnitPrice: Decimal;
+        UnitOfMeasureCode: Code[10];
+    begin
+        ItemNo := Rec."No.";
+        Qty := Rec.Quantity;
+        UnitPrice := Rec."Unit Price";
+        UnitOfMeasureCode := Rec."Unit of Measure Code";
+
+        Rec."Document Type" := Rec."Document Type"::Order;
+        Rec.Type := Rec.Type::Item;
+
+        if Rec."Line No." = 0 then begin
+            SalesLine.SetRange("Document Type", Rec."Document Type");
+            SalesLine.SetRange("Document No.", Rec."Document No.");
+
+            if SalesLine.FindLast() then
+                Rec."Line No." := SalesLine."Line No." + 10000
+            else
+                Rec."Line No." := 10000;
+        end;
+
+        if ItemNo <> '' then
+            Rec.Validate("No.", ItemNo);
+
+        if UnitOfMeasureCode <> '' then
+            Rec.Validate("Unit of Measure Code", UnitOfMeasureCode);
+
+        if Qty <> 0 then
+            Rec.Validate(Quantity, Qty);
+
+        if UnitPrice <> 0 then
+            Rec.Validate("Unit Price", UnitPrice);
+
+        exit(true);
+    end;
 }

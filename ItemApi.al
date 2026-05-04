@@ -1,15 +1,16 @@
-page 50100 "API Item List"
+page 50100 "API Items"
 {
     PageType = API;
-    Caption = 'apiItemList';
+    Caption = 'apiItems';
     APIPublisher = 'bs';
     APIGroup = 'tirocinio';
     APIVersion = 'v1.0';
     EntityName = 'prodotto';
     EntitySetName = 'prodotti';
+
     SourceTable = Item;
-    DelayedInsert = true;
     ODataKeyFields = SystemId;
+    DelayedInsert = true;
 
     layout
     {
@@ -21,25 +22,25 @@ page 50100 "API Item List"
                 {
                     Caption = 'Id';
                 }
+
                 field(codiceArticolo; Rec."No.")
                 {
-                    Caption = 'CodiceArticolo';
+                    Caption = 'Codice Articolo';
                 }
+
                 field(descrizione; Rec.Description)
                 {
                     Caption = 'Descrizione';
                 }
+
                 field(prezzoUnitario; Rec."Unit Price")
                 {
-                    Caption = 'PrezzoUnitario';
+                    Caption = 'Prezzo Unitario';
                 }
-                field(giacenza; Rec.Inventory)
+
+                field(unitaMisura; Rec."Sales Unit of Measure")
                 {
-                    Caption = 'Giacenza';
-                }
-                field(Picture; Rec.Picture)
-                {
-                    Caption = 'Foto';
+                    Caption = 'Unità Misura Vendita';
                 }
             }
         }
