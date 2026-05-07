@@ -24,6 +24,8 @@ page 50107 "Agent Login API"
                 field(email; Rec."E-Mail") { }
                 field(name; Rec.Name) { }
                 field(code; Rec.Code) { }
+                field(itemClusterCode; Rec."Item Cluster Code") { }
+                field(itemClusterGroupCode; Rec."Item Cluster Group Code") { }
             }
         }
     }
@@ -37,7 +39,7 @@ page 50107 "Agent Login API"
         Salesperson.SetRange("Password", UserPassword);
 
         if Salesperson.FindFirst() then
-            exit('Success:' + Salesperson.Code + '|' + Salesperson.Name)
+            exit('Success:' + Salesperson.Code + '|' + Salesperson.Name + '|' + Salesperson."Item Cluster Group Code")
         else
             Error('Invalid credentials');
     end;

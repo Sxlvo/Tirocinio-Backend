@@ -39,6 +39,16 @@ page 50103 "API Sales Order Line"
                     Caption = 'Numero Riga';
                 }
 
+                field(dataConsegnaPianificata; Rec."Planned Delivery Date")
+                {
+                    Caption = 'Data Consegna Pianificata';
+                }
+
+                field(shipmentDate; Rec."Shipment Date")
+                {
+                    Caption = 'Shipment Date';
+                }
+
                 field(tipoRiga; Rec.Type)
                 {
                     Caption = 'Tipo Riga';

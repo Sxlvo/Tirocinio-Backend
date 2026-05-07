@@ -25,6 +25,9 @@ page 50102 "API Sales Order"
                 field(nomeCliente; Rec."Sell-to Customer Name") { Caption = 'Nome Cliente'; }
                 field(dataDocumento; Rec."Document Date") { Caption = 'Data Documento'; }
                 field(dataRegistrazione; Rec."Posting Date") { Caption = 'Data Registrazione'; }
+                field(dataConsegnaPianificata; Rec."Promised Delivery Date") { Caption = 'Data Consegna Pianificata'; }
+                field(dataConsegna; Rec."Requested Delivery Date") { Caption = 'Data Consegna'; }
+                field(shipmentDate; Rec."Shipment Date") { Caption = 'Shipment Date'; }
                 field(stato; Rec.Status) { Caption = 'Stato'; }
                 field(codiceAttivita; Rec."Activity Code") { Caption = 'Codice Attività'; }
                 field(totaleOrdine; Rec.Amount) { Caption = 'Totale Ordine'; }
