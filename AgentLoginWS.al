@@ -28,10 +28,6 @@ page 50108 "Agent Login WS"
                 {
                     ApplicationArea = All;
                 }
-                field("Item Cluster Group Code"; Rec."Item Cluster Group Code")
-                {
-                    ApplicationArea = All;
-                }
             }
         }
     }
@@ -45,7 +41,7 @@ page 50108 "Agent Login WS"
         Salesperson.SetRange("Password", UserPassword);
 
         if Salesperson.FindFirst() then
-            exit('Success:' + Salesperson.Name + '|' + Salesperson."Item Cluster Group Code")
+            exit('Success:' + Salesperson.Name)
         else
             Error('Invalid credentials');
     end;
